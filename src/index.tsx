@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import {AppContextProvider} from "@/state/AppContextProvider";
+import {AppContextProvider} from "./state/AppContextProvider";
 import {HelmetProvider} from 'react-helmet-async';
 
 const root = ReactDOM.createRoot(

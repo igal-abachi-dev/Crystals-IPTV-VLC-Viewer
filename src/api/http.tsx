@@ -2,7 +2,7 @@ import {nullable} from './api.types';
 import React,{useEffect, useState} from 'react';
 import axios, {AxiosInstance, AxiosResponse} from 'axios';
 import _ from 'lodash';
-import {GetCurrentQueryString} from "@/services/string.services";
+import {GetCurrentQueryString} from "../services/string.services";
 
 
 const isSSR = typeof window === 'undefined';// || (

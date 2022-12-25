@@ -8,14 +8,19 @@ import {
     Link
 } from 'react-router-dom';
 
+import {app} from './Layout.css';
+
 import HomePage from './pages/Home';
 import AboutPage from './pages/About';
-import styles from "@/App.module.scss";
+
+
+
+
 
 export function Layout() {
     return (
         <Router>
-            <div className={styles.App}>
+            <div className={app}>
                 {/*<nav>*/}
                 {/*    <ul>*/}
                 {/*        <li>*/}
@@ -29,7 +34,7 @@ export function Layout() {
 
                 <ScopedCssBaseline>
                     <Routes>
-                        <Route path='/About' element={<AboutPage/>}/>
+                        {/*<Route path='/About' element={<AboutPage/>}/>*/}
                         <Route path='/' element={<HomePage/>}/>
                     </Routes>
 
@@ -37,5 +42,27 @@ export function Layout() {
             </div>
             </Router>);
 }
+/*
 
+
+.App_header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+
+
+  button {
+    font-size: calc(10px + 2vmin);
+  }
+}
+
+.App_link {
+  color: #61dafb;
+}
+*/
 export default Layout;

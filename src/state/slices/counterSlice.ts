@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState, AppThunk} from '../store';
-import {HttpClient} from "@/api/http";
+import {HttpClient} from "../../api/http";
 
 
 //Normalize Complex Nested/Relational State

@@ -1,11 +1,10 @@
 import React, {useEffect} from 'react';
-import styles from "@/App.module.scss";
 
 
 import { Helmet } from 'react-helmet-async';
 export function AboutPage() {
     return (
-        <header className={styles.App_header}>
+        <header>
             <Helmet>
                 <title>about</title>
             </Helmet>
