@@ -10,6 +10,12 @@ that plays most multimedia files and network streams, using internal builtin cod
 
 uses libVLC.dll(vlc core lib)
 
+https://nexplayersdk.com/html5-player/
+
+https://nexplayer.github.io/NexPlayer_HTML5_Documentation/#/gettingstarted?id=sample-integration-with-react
+
+---------------------
+
 
 [React 18](https://reactjs.org/)
 
