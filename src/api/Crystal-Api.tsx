@@ -67,3 +67,25 @@ export class CrystalApi {
         return this._streamUrl + stream.stream_id.toString() + '.ts';
     }
 }
+
+
+/*
+https://shivampandey.hashnode.dev/resolve-cors-with-vercel-serverless-functions
+
+api/[name].ts
+
+import type { VercelRequest, VercelResponse } from '@vercel/node';
+
+export default (request: VercelRequest, response: VercelResponse) => {
+  const { name } = request.query;
+  response.status(200).send(`Hello ${name}!`);
+};
+
+
+//npm i -D @vercel/node
+
+You can also define a tsconfig.json to configure the Vercel TypeScript compiler.
+
+https://vercel.com/docs/concepts/functions/serverless-functions/runtimes/node-js#advanced-node.js-usage
+
+*/
