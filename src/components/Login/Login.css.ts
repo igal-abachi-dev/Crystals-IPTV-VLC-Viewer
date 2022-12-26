@@ -9,9 +9,10 @@ export const row = style({
 
 
 export const textbox = style({
-    fontSize: '32px',
-    padding: '2px',
-    width: '64px',
-    textAlign: 'center',
-    marginRight: '4px'
+    width: '400px',
+});
+
+
+export const button = style({
+    width: '400px',
 });

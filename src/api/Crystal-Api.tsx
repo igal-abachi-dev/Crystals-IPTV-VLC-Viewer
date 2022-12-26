@@ -19,7 +19,7 @@ export class CrystalApi {
             this._api = '/player_api.php?username=' + this._username + '&password=' + this._password;
             this._streamUrl = '/live/' + this._username + '/' + this._password + '/';
             //
-            this._http = new HttpClient(ApiUrl);
+            this._http = new HttpClient(this._server);
         }
     }
 
@@ -36,8 +36,7 @@ export class CrystalApi {
 
 
     private isValid(): boolean {
-        return
-        this._server != null && this._server.length > 0 && this._server.toUpperCase().indexOf('.OTTC.PRO') > 0
+        return  this._server != null && this._server.length > 0 && this._server.toUpperCase().indexOf('.OTTC.PRO') > 0
         && this._username != null && this._username.length > 0
         && this._password != null && this._password.length > 0;
     }

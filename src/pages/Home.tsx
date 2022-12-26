@@ -10,7 +10,7 @@ import {LoginData} from "../api/api.types";
 
 
 export function HomePage() {
-    const [loginData, setLoginData] = useState<LoginData|null>(null);
+    const [loginData, setLoginData] = useState<LoginData | null>(null);
 
 
     useEffect(() => {
@@ -20,37 +20,23 @@ export function HomePage() {
             let data = JSON.parse(item) as LoginData;
             if (data.user_info.auth == 1) {
                 setLoginData(data);
+                //don't check for week expiration to logout , for now...
             }
         }
     }, []);
 
-    return (
-        <header>
-            <Helmet>
-                <title>Crystals IPTV decoder</title>
-            </Helmet>
-
+    const content = (loginData == null)
+        ? (<div>
+            <Divider variant='middle'>
+                <Chip label="Login" color="primary"/>
+            </Divider>
             <div>
-                <Divider variant='middle'>
-                    <Chip label="Login" color="primary"/>
-                </Divider>
-                <div>
-                    {/*    hide when logged in , if not logged in , hide others*/}
-                    <Login/>
-                </div>
+                {/*    hide when logged in , if not logged in , hide others*/}
+                <Login/>
             </div>
-
-            {(loginData == null) ?? (<div>
-                <Divider variant='middle'>
-                    <Chip label="Login" color="primary"/>
-                </Divider>
-                <div>
-                    {/*    hide when logged in , if not logged in , hide others*/}
-                    <Login/>
-                </div>
-            </div>)}
-
-            {(loginData != null) ?? (<div>
+        </div>)
+        : (<div>
+            <div>
                 <Divider variant='middle'>
                     <Chip label="Channels" color="primary"/>
                 </Divider>
@@ -58,9 +44,9 @@ export function HomePage() {
                     {/*    datagrid with logo*/}
                     <Channels/>
                 </div>
-            </div>)
-            }
-            {(loginData != null) && (<div>
+            </div>
+
+            <div>
                 <Divider variant='middle'>
                     <Chip label="Channel Info" color="primary"/>
                 </Divider>
@@ -68,7 +54,17 @@ export function HomePage() {
                     {/*    epg + ling to copy*/}
                 </div>
                 <ChannelData/>
-            </div>)
+            </div>
+        </div>);
+
+    return (
+        <header>
+            <Helmet>
+                <title>Crystals IPTV decoder</title>
+            </Helmet>
+
+            {
+                content
             }
         </header>
     );
