@@ -50,16 +50,16 @@ function App() {
             <main>
                 <Layout/>
             </main>
-            <Box sx={{bgcolor: 'lightgray', p: 3}} component="footer">
-                <p>
-                    {"run web site in no-CORS mode:"}
-                    <code>"C:\Program Files\Google\Chrome\Application\chrome.exe" --disable-web-security --user-data-dir=c:\temp</code>
-                </p>
-                <p>
-                    {"or in firefox with: "}
-                    <a href={'https://addons.mozilla.org/en-US/firefox/addon/cors-everywhere/'}>CORS Everywhere</a>
-                    {" addon"}
-                </p>
+            <Box sx={{bgcolor: '#0d1460', p: 3}} component="footer">
+                {/*<p>*/}
+                {/*    {"run web site in no-CORS mode:"}*/}
+                {/*    <code>"C:\Program Files\Google\Chrome\Application\chrome.exe" --disable-web-security --user-data-dir=c:\temp</code>*/}
+                {/*</p>*/}
+                {/*<p>*/}
+                {/*    {"or in firefox with: "}*/}
+                {/*    <a href={'https://addons.mozilla.org/en-US/firefox/addon/cors-everywhere/'}>CORS Everywhere</a>*/}
+                {/*    {" addon"}*/}
+                {/*</p>*/}
                 {/*<Copyright/>*/}
                 {/*{new Date().getFullYear()}*/}
             </Box>
