@@ -44,7 +44,7 @@ export class CrystalApi {
 //gets gzip of json using http get
 
     public async Login(): Promise<LoginData> {
-        return await this._http.get<LoginData>(this._api + '/Login?server=' + this._server + '&username=' + this._username + '&password=' + this._password);
+        return await this._http.get<LoginData>('/Login','server=' + this._server + '&username=' + this._username + '&password=' + this._password);
     }
 
     public async GetLiveCategories(): Promise<LiveCategory[]> {
