@@ -11,9 +11,7 @@ export default async (request: VercelRequest, response: VercelResponse) => {
     const url = server + '/player_api.php?username=' + username + '&password=' + password;
 
     try {
-
         console.log('GET: ', url);
-
         const res = await fetch(url, {
             method: 'GET',
             headers: {
@@ -23,11 +21,10 @@ export default async (request: VercelRequest, response: VercelResponse) => {
             },
         });
 
-
         const data = await res.json();
-
         return response.status(200).json(data);
     } catch (e) {
         console.error('GET: ', e);
+        return response.status(500).send("error");
     }
 };
