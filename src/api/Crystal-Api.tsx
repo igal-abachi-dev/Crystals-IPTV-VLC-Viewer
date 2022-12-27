@@ -12,14 +12,14 @@ export class CrystalApi {
         this.valid = this.isValid();
 
         if (this.valid) {
-            if (this._server.toUpperCase().startsWith('HTTP://') == false) {
-                this._server = 'http://' + this._server;
-            }
+            // if (this._server.toUpperCase().startsWith('HTTP://') == false) {
+            //     this._server = 'http://' + this._server;
+            // }
 
-            this._api = '/player_api.php?username=' + this._username + '&password=' + this._password;
+//            this._api = '/player_api.php?username=' + this._username + '&password=' + this._password;
             this._streamUrl = '/live/' + this._username + '/' + this._password + '/';
             //
-            this._http = new HttpClient(this._server);
+            this._http = new HttpClient('https://crystals-iptv-vlc-viewer.vercel.app/api');
         }
     }
 
@@ -44,7 +44,7 @@ export class CrystalApi {
 //gets gzip of json using http get
 
     public async Login(): Promise<LoginData> {
-        return await this._http.get<LoginData>(this._api);
+        return await this._http.get<LoginData>(this._api+'/Login');
     }
 
     public async GetLiveCategories(): Promise<LiveCategory[]> {
@@ -76,8 +76,9 @@ api/[name].ts
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-export default (request: VercelRequest, response: VercelResponse) => {
+export default async (request: VercelRequest, response: VercelResponse) => {
   const { name } = request.query;
+    //const { body } = req;
   response.status(200).send(`Hello ${name}!`);
 };
 
