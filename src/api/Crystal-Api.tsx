@@ -17,14 +17,18 @@ export class CrystalApi {
             // }
 
 //            this._api = '/player_api.php?username=' + this._username + '&password=' + this._password;
+
             this._streamUrl = '/live/' + this._username + '/' + this._password + '/';
             //
+            this._qry='server=' + this._server + '&username=' + this._username + '&password=' + this._password;
+
             this._http = new HttpClient('https://crystals-iptv-vlc-viewer.vercel.app/api');
         }
     }
 
     private readonly _api: string;
     private readonly _streamUrl: string;
+    private readonly _qry :string;
 
     public readonly valid: boolean;
 
@@ -44,26 +48,29 @@ export class CrystalApi {
 //gets gzip of json using http get
 
     public async Login(): Promise<LoginData> {
-        return await this._http.get<LoginData>('/Login','server=' + this._server + '&username=' + this._username + '&password=' + this._password);
+        return await this._http.get<LoginData>('/Login',this._qry);
     }
 
     public async GetLiveCategories(): Promise<LiveCategory[]> {
-        return await this._http.get<LiveCategory[]>(this._api + '&action=get_live_categories');//39
+        return await this._http.get<LiveCategory[]>('/GetLiveCategories',this._qry);//39
     }
 
     public async GetLiveStreamsByCategoryId(categoryId: number = 39): Promise<LiveStream[]> {//39  = israel/hebrew channels
-        return await this._http.get<any>(this._api + '&action=get_live_streams&category_id=' + categoryId.toString());
+        return await this._http.get<LiveStream[]>('/GetLiveStreamsByCategory',this._qry + '&category_id=' + categoryId.toString());
     }
 
     public async GetLiveStreamsByCategory(category: LiveCategory): Promise<LiveStream[]> {
-        return await this._http.get<any>(this._api + '&action=get_live_streams&category_id=' + category.category_id);
+        return await this._http.get<LiveStream[]>('/GetLiveStreamsByCategory',this._qry + '&category_id=' + category.category_id);
     }
 
     public async GetShortEpgByStream(stream: LiveStream): Promise<ShortEpg> {
-        return await this._http.get<ShortEpg>(this._api + '&action=get_short_epg&stream_id=' + stream.stream_id.toString());
+        return await this._http.get<ShortEpg>('/GetShortEpgByStream',this._qry + '&stream_id=' + stream.stream_id.toString());
     }
 
     public GetVlcStreamUrl(stream: LiveStream): string {
+        if(stream == null){
+            return null;
+        }
         return this._streamUrl + stream.stream_id.toString() + '.ts';
     }
 }
