@@ -36,15 +36,15 @@ export class CrystalApi {
 
 
     private isValid(): boolean {
-        return  this._server != null && this._server.length > 0 && this._server.toUpperCase().indexOf('.OTTC.PRO') > 0
-        && this._username != null && this._username.length > 0
-        && this._password != null && this._password.length > 0;
+        return this._server != null && this._server.length > 0 && this._server.toUpperCase().indexOf('.OTTC.PRO') > 0
+            && this._username != null && this._username.length > 0
+            && this._password != null && this._password.length > 0;
     }
 
 //gets gzip of json using http get
 
     public async Login(): Promise<LoginData> {
-        return await this._http.get<LoginData>(this._api+'/Login');
+        return await this._http.get<LoginData>(this._api + '/Login?server=' + this._server + '&username=' + this._username + '&password=' + this._password);
     }
 
     public async GetLiveCategories(): Promise<LiveCategory[]> {
