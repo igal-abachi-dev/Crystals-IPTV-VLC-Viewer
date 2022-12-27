@@ -20,7 +20,7 @@ export class CrystalApi {
 
             this._streamUrl = '/live/' + this._username + '/' + this._password + '/';
             //
-            this._qry='server=' + this._server + '&username=' + this._username + '&password=' + this._password;
+            this._qry = 'server=' + this._server + '&username=' + this._username + '&password=' + this._password;
 
             this._http = new HttpClient('https://crystals-iptv-vlc-viewer.vercel.app/api');
         }
@@ -28,7 +28,7 @@ export class CrystalApi {
 
     private readonly _api: string;
     private readonly _streamUrl: string;
-    private readonly _qry :string;
+    private readonly _qry: string;
 
     public readonly valid: boolean;
 
@@ -48,27 +48,39 @@ export class CrystalApi {
 //gets gzip of json using http get
 
     public async Login(): Promise<LoginData> {
-        return await this._http.get<LoginData>('/Login',this._qry);
+        return await this._http.get<LoginData>('/Login', this._qry);
     }
 
     public async GetLiveCategories(): Promise<LiveCategory[]> {
-        return await this._http.get<LiveCategory[]>('/GetLiveCategories',this._qry);//39
+
+        // const time = localStorage.getItem('GetLiveCategories_Time');
+        // if (Date.now() - time > day) {
+        //     const data = localStorage.getItem('GetLiveCategories_Data');
+        //     if (data != null) {
+        //         return data;
+        //     }
+        // }
+        return await this._http.get<LiveCategory[]>('/GetLiveCategories', this._qry);//39
+
+
+        //localStorage.setItem('GetLiveCategories_Data', JSON.stringify(loginData));
+        //localStorage.setItem('GetLiveCategories_Time', Date.now().toString());
     }
 
     public async GetLiveStreamsByCategoryId(categoryId: number = 39): Promise<LiveStream[]> {//39  = israel/hebrew channels
-        return await this._http.get<LiveStream[]>('/GetLiveStreamsByCategory',this._qry + '&category_id=' + categoryId.toString());
+        return await this._http.get<LiveStream[]>('/GetLiveStreamsByCategory', this._qry + '&category_id=' + categoryId.toString());
     }
 
     public async GetLiveStreamsByCategory(category: LiveCategory): Promise<LiveStream[]> {
-        return await this._http.get<LiveStream[]>('/GetLiveStreamsByCategory',this._qry + '&category_id=' + category.category_id);
+        return await this._http.get<LiveStream[]>('/GetLiveStreamsByCategory', this._qry + '&category_id=' + category.category_id);
     }
 
     public async GetShortEpgByStream(stream: LiveStream): Promise<ShortEpg> {
-        return await this._http.get<ShortEpg>('/GetShortEpgByStream',this._qry + '&stream_id=' + stream.stream_id.toString());
+        return await this._http.get<ShortEpg>('/GetShortEpgByStream', this._qry + '&stream_id=' + stream.stream_id.toString());
     }
 
     public GetVlcStreamUrl(stream: LiveStream): string {
-        if(stream == null){
+        if (stream == null) {
             return null;
         }
         return this._streamUrl + stream.stream_id.toString() + '.ts';
