@@ -58,7 +58,17 @@ export function Channels(props: { stream_id_changed: (id: number) => void }) {
                     console.log(res);
                     if (res != null) {
                         res = res.filter((c) => {
+                            //also block:
+                            //|IL| FASHION HD
+                            //|IL| HOT Ego Total
+                            
                             return c.is_adult === "0";
+
+                            //also block arab:
+                            //|IL| HOT Makan
+                            //|IL| MIKAN
+                            //|IL| HALA TV
+                            //|IL-4K| HALA TV HD
                         })
                         setChannels(res);
                     }
