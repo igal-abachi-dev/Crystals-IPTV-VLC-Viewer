@@ -54,13 +54,14 @@ export function Channels(props:{stream_id_changed:(id:number)=>void}) {
     return (
         <div>
             <div className={row}>
-                <ul>
-                {channels.map((c) => (
-                    <li onClick={(e)=>{
+                    {/*name , stream_id , stream_icon*/}
+                {channels.filter( (c) =>{
+                    return c.is_adult === "0";
+                }).map((c) => (
+                    <div style={{backgroundColor:'aliceblue',marginTop:'3px'}} onClick={(e)=>{
                         props.stream_id_changed(parseInt(e.currentTarget.id,10))
-                    }} id={c.stream_id.toString(10)}>{JSON.stringify(c)}</li>
+                    }} id={c.stream_id.toString(10)}>{c.stream_id + " | "+ c.name + " | "+c.stream_icon}</div>
                 ))}
-                </ul>
             </div>
         </div>
     );
