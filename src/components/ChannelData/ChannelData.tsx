@@ -1,13 +1,14 @@
 import React, {useEffect, useState} from 'react';
 
 
-import {row, textbox} from './ChannelData.css';
+import { textbox} from './ChannelData.css';
 
 import {useAppDispatch, useAppSelector} from "../../hooks/redux-hooks";
 import {CrystalApi} from "../../api/Crystal-Api";
 import {LiveStream, ShortEpg} from "../../api/api.types";
 
 import {DataGrid, GridRowsProp, GridColDef} from '@mui/x-data-grid';
+import {Box, TextField} from "@mui/material";
 
 const getTitle = (params) => {
     return window.atob(params.row.title);
@@ -21,8 +22,8 @@ const getDesc = (params) => {
 
 const columns: GridColDef[] = [
     //id , lang
-    {field: 'title', headerName: 'title', width: 100, valueGetter: getTitle},
-    {field: 'start_timestamp', headerName: 'time range', width: 100, valueGetter: getTimeRange},
+    {field: 'title', headerName: 'title', width: 150, valueGetter: getTitle},
+    {field: 'start_timestamp', headerName: 'time range', width: 200, valueGetter: getTimeRange},
     {field: 'description', headerName: 'description', width: 200, valueGetter: getDesc},
 ];
 
@@ -70,12 +71,19 @@ export function ChannelData(props: { stream_id: number | null | undefined }) {
     }, [props.stream_id]);
     return (
         <div>
-            <div className={row}>
-                <p>{props.stream_id}</p>
+            <div>
+                <p>{"Channel: " + props.stream_id}</p>
                 <p>
                     {vlcStreamUrl}
                 </p>
-                <div style={{height: 200, width: '100%'}}>
+                <TextField value={vlcStreamUrl}
+                           type={'text'} className={textbox}
+                           label="vlcStreamUrl"
+                           variant="filled"
+                           margin='normal'
+                />
+                <br/>
+                <div style={{height: 300, width: '100%'}}>
                     <DataGrid rows={shortEpg.epg_listings} columns={columns}  hideFooter />
                 </div>
             </div>
