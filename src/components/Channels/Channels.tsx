@@ -56,7 +56,9 @@ export function Channels(props:{stream_id_changed:(id:number)=>void}) {
             <div className={row}>
                 <ul>
                 {channels.map((c) => (
-                    <li>{JSON.stringify(c)}</li>
+                    <li onClick={(e)=>{
+                        props.stream_id_changed(parseInt(e.currentTarget.id,10))
+                    }} id={c.stream_id.toString(10)}>{JSON.stringify(c)}</li>
                 ))}
                 </ul>
             </div>

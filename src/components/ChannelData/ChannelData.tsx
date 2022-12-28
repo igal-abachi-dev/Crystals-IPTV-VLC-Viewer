@@ -1,19 +1,19 @@
 import React, {useEffect, useState} from 'react';
 
 
-import { row, textbox} from './ChannelData.css';
+import {row, textbox} from './ChannelData.css';
 
 import {useAppDispatch, useAppSelector} from "../../hooks/redux-hooks";
 import {CrystalApi} from "../../api/Crystal-Api";
 import {LiveStream, ShortEpg} from "../../api/api.types";
 
 
-export function ChannelData(props:{stream_id:number|null|undefined}) {
+export function ChannelData(props: { stream_id: number | null | undefined }) {
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [apiServer, setApiServer] = useState<string>('');
 
-    const [shortEpg, setShortEpg] = useState<ShortEpg|null>(null);
+    const [shortEpg, setShortEpg] = useState<ShortEpg | null>(null);
     const [vlcStreamUrl, setVlcStreamUrl] = useState<string>('');
 
     useEffect(() => {
@@ -51,11 +51,18 @@ export function ChannelData(props:{stream_id:number|null|undefined}) {
         }
     }, [props.stream_id]);
     return (
-        <div >
-            <div className={row }>
+        <div>
+            <div className={row}>
                 {props.stream_id}
                 <br/>
                 {vlcStreamUrl}
+                <br/>
+
+                <ul>
+                    {shortEpg?.epg_listings.map((l) => (
+                        <li>{JSON.stringify(l)}</li>
+                    ))}
+                </ul>
             </div>
         </div>
     );
