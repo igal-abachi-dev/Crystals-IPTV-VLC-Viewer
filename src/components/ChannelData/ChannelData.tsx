@@ -54,8 +54,7 @@ export function ChannelData(props: { stream_id: number | null | undefined }) {
     useEffect(() => {
         if ((username != null && username.length > 0)
             && (password != null && password.length > 0)
-            && (apiServer != null && apiServer.length > 0)
-            && (shortEpg == null)) {
+            && (apiServer != null && apiServer.length > 0)) {
 
             const api = new CrystalApi(apiServer, username, password);
             if (api.valid) {
@@ -72,13 +71,12 @@ export function ChannelData(props: { stream_id: number | null | undefined }) {
     return (
         <div>
             <div className={row}>
-                {props.stream_id}
-                <br/>
-                {vlcStreamUrl}
-                <br/>
-
-                <div style={{height: 400, width: '100%'}}>
-                    <DataGrid rows={shortEpg.epg_listings} columns={columns}/>
+                <p>{props.stream_id}</p>
+                <p>
+                    {vlcStreamUrl}
+                </p>
+                <div style={{height: 200, width: '100%'}}>
+                    <DataGrid rows={shortEpg.epg_listings} columns={columns}  hideFooter />
                 </div>
             </div>
         </div>

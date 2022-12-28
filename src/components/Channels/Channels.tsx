@@ -84,7 +84,8 @@ export function Channels(props: { stream_id_changed: (id: number) => void }) {
                 <div style={{height: 600, width: '100%'}}>
                     <DataGrid rows={channels} columns={columns} getRowId={r => r.stream_id} onRowClick={r => {
                         props.stream_id_changed(r.row.stream_id)
-                    }}/>
+                    }}  
+                              hideFooterSelectedRowCount/>
                 </div>
             </div>
         </div>
