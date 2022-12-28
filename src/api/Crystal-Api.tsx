@@ -1,6 +1,7 @@
 import {HttpClient, IHttpApiClient} from "./http";
 import {Api} from "@mui/icons-material";
 import {LiveCategory, LiveStream, LoginData, ShortEpg} from "./api.types";
+import {number} from "prop-types";
 
 export class CrystalApi {
     constructor(ApiUrl: string, Username: string, Password: string) {
@@ -47,38 +48,92 @@ export class CrystalApi {
 
 //gets gzip of json using http get
 
-    public async Login(): Promise<LoginData> {
-        return await this._http.get<LoginData>('/Login', this._qry);
+    private millisecondsInHour = (60 * (60 * 1000));
+    private expirationHours = 12;
+
+    private GetFromCache<T>(name: string): T {
+        const time = localStorage.getItem(name + '_Time');
+        if (time != null) {
+            const expired = new Date(parseInt(time, 10) + (this.expirationHours * this.millisecondsInHour)).getTime();
+
+            if (expired > 0 && expired < Date.now()) {
+                const data = localStorage.getItem(name + '_Data');
+                if (data != null) {
+                    return JSON.parse(data) as T;
+                }
+            }
+        }
+        return null;
     }
+
+    private SetIntoCache(name: string, res: any) {
+        localStorage.setItem(name + '_Data', JSON.stringify(res));
+        localStorage.setItem(name + '_Time', Date.now().toString(10));
+    }
+
+    public async Login(): Promise<LoginData> {
+        // const cached = this.GetFromCache<LoginData>('Login');
+        // if (cached != null) {
+        //     return cached;
+        // }
+        const res = await this._http.get<LoginData>('/Login', this._qry);
+        //this.SetIntoCache('Login', res);
+
+        return res;
+    }
+
+    public Logout(): void {
+        localStorage.removeItem('LoginData');
+        localStorage.removeItem('LoginTime');
+        document.location.reload();
+    }
+
 
     public async GetLiveCategories(): Promise<LiveCategory[]> {
 
-        // const time = localStorage.getItem('GetLiveCategories_Time');
-        // if (Date.now() - time > day) {
-        //     const data = localStorage.getItem('GetLiveCategories_Data');
-        //     if (data != null) {
-        //         return data;
-        //     }
-        // }
-        return await this._http.get<LiveCategory[]>('/GetLiveCategories', this._qry);//39
+        const cached = this.GetFromCache<LiveCategory[]>('GetLiveCategories');
+        if (cached != null) {
+            return cached;
+        }
+        const res = await this._http.get<LiveCategory[]>('/GetLiveCategories', this._qry);//39
+        this.SetIntoCache('GetLiveCategories', res);
 
-
-        //localStorage.setItem('GetLiveCategories_Data', JSON.stringify(loginData));
-        //localStorage.setItem('GetLiveCategories_Time', Date.now().toString());
+        return res;
     }
 
     public async GetLiveStreamsByCategoryId(categoryId: number = 39): Promise<LiveStream[]> {//39  = israel/hebrew channels
-        return await this._http.get<LiveStream[]>('/GetLiveStreamsByCategory', this._qry + '&category_id=' + categoryId.toString());
+        const cached = this.GetFromCache<LiveStream[]>('GetLiveStreamsByCategory');
+        if (cached != null) {
+            return cached;
+        }
+        const res = await this._http.get<LiveStream[]>('/GetLiveStreamsByCategory', this._qry + '&category_id=' + categoryId.toString());
+        this.SetIntoCache('GetLiveStreamsByCategory', res);
+
+        return res;
     }
 
     public async GetLiveStreamsByCategory(category: LiveCategory): Promise<LiveStream[]> {
-        return await this._http.get<LiveStream[]>('/GetLiveStreamsByCategory', this._qry + '&category_id=' + category.category_id);
+        const cached = this.GetFromCache<LiveStream[]>('GetLiveStreamsByCategory');
+        if (cached != null) {
+            return cached;
+        }
+        const res = await this._http.get<LiveStream[]>('/GetLiveStreamsByCategory', this._qry + '&category_id=' + category.category_id);
+        this.SetIntoCache('GetLiveStreamsByCategory', res);
+
+        return res;
+    }
+
+    public async GetShortEpgByStreamId(streamId: number): Promise<ShortEpg> {
+        return await this._http.get<ShortEpg>('/GetShortEpgByStream', this._qry + '&stream_id=' + streamId.toString());
     }
 
     public async GetShortEpgByStream(stream: LiveStream): Promise<ShortEpg> {
         return await this._http.get<ShortEpg>('/GetShortEpgByStream', this._qry + '&stream_id=' + stream.stream_id.toString());
     }
 
+    public GetVlcStreamUrlById(streamId:number): string {
+        return this._streamUrl + streamId.toString() + '.ts';
+    }
     public GetVlcStreamUrl(stream: LiveStream): string {
         if (stream == null) {
             return null;

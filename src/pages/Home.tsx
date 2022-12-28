@@ -11,6 +11,7 @@ import {LoginData} from "../api/api.types";
 
 export function HomePage() {
     const [loginData, setLoginData] = useState<LoginData | null>(null);
+    const [stream_id, setStream_id] = useState<number|null>(null);
 
 
     useEffect(() => {
@@ -42,7 +43,9 @@ export function HomePage() {
                 </Divider>
                 <div>
                     {/*    datagrid with logo*/}
-                    <Channels/>
+                    <Channels stream_id_changed={(id)=>{
+                        setStream_id(id);
+                    }}/>
                 </div>
             </div>
 
@@ -53,7 +56,7 @@ export function HomePage() {
                 <div>
                     {/*    epg + ling to copy*/}
                 </div>
-                <ChannelData/>
+                <ChannelData stream_id={stream_id}/>
             </div>
         </div>);
 
