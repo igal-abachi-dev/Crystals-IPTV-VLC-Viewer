@@ -33,9 +33,9 @@ const getDesc = (params) => {
 
 const columns: GridColDef[] = [
     //id , lang
-    {field: 'title', headerName: 'title', width: 200, valueGetter: getTitle},
+    {field: 'title', headerName: 'title', width: 300, valueGetter: getTitle},
     {field: 'start_timestamp', headerName: 'time range', width: 150, valueGetter: getTimeRange},
-    {field: 'description', headerName: 'description', width: 400, valueGetter: getDesc},
+    {field: 'description', headerName: 'description', width: 800, valueGetter: getDesc},
 ];
 
 

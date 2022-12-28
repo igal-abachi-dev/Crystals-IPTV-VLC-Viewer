@@ -15,21 +15,11 @@ const columns: GridColDef[] = [
     {field: 'stream_icon', headerName: '', width: 100,renderCell: (params: GridRenderCellParams<string>) => (<img src={params.value} height={50}/>)},
     {field: 'name', headerName: 'name', width: 400},
 ];
-//logo:
-// renderCell: (params: GridRenderCellParams<Date>) => (
-//     <strong>
-//         {params.value.getFullYear()}
-//         <Button
-//             variant="contained"
-//             size="small"
-//             style={{ marginLeft: 16 }}
-//             tabIndex={params.hasFocus ? 0 : -1}
-//         >
-//             Open
-//         </Button>
-//     </strong>
-// ),
-// },
+
+/*
+download all of them locally , serve http2:
+http://logo.ottc.pro:8080/logos/ISRAEL/CHANNEL9.png
+*/
 
 export function Channels(props: { stream_id_changed: (id: number) => void }) {
 

@@ -69,9 +69,11 @@ export function Login() {
             console.log(loginData);
 
             if (loginData?.user_info?.auth == 1) {
-                localStorage.setItem('LoginData', JSON.stringify(loginData));
-                localStorage.setItem('LoginTime', Date.now().toString());
-                document.location.reload();
+                    if(loginData.user_info.status =="Active") {
+                        localStorage.setItem('LoginData', JSON.stringify(loginData));
+                        localStorage.setItem('LoginTime', Date.now().toString());
+                        document.location.reload();
+                    }
             }
         }
         else{
