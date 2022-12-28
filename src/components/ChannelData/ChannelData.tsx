@@ -10,14 +10,25 @@ import {LiveStream, ShortEpg} from "../../api/api.types";
 import {DataGrid, GridRowsProp, GridColDef} from '@mui/x-data-grid';
 import {Box, TextField} from "@mui/material";
 
+import { format } from 'date-fns';
+
+
+const b64DecodeUnicode =(str:string):string {
+    // Going backwards: from bytestream, to percent-encoding, to original string.
+    return decodeURIComponent(window.atob(str).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+}
+
+
 const getTitle = (params) => {
-    return window.atob(params.row.title);
+    return b64DecodeUnicode(params.row.title);
 }
 const getTimeRange = (params) => {
-    return `${params.row.start_timestamp || ''} - ${params.row.stop_timestamp || ''}`;
+    return `${format(new Date(params.row.start_timestamp),'HH:mm') || ''} - ${format(new Date(params.row.stop_timestamp),'HH:mm') || ''}`;
 }
 const getDesc = (params) => {
-    return window.atob(params.row.description);
+    return b64DecodeUnicode(params.row.description);
 }
 
 const columns: GridColDef[] = [
@@ -73,12 +84,9 @@ export function ChannelData(props: { stream_id: number | null | undefined }) {
         <div>
             <div>
                 <p>{"Channel: " + props.stream_id}</p>
-                <p>
-                    {vlcStreamUrl}
-                </p>
                 <TextField value={vlcStreamUrl}
                            type={'text'} className={textbox}
-                           label="vlcStreamUrl"
+                           label="VLC Stream url:"
                            variant="filled"
                            margin='normal'
                 />

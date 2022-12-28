@@ -7,13 +7,13 @@ import {useAppDispatch, useAppSelector} from "../../hooks/redux-hooks";
 import {LiveStream} from "../../api/api.types";
 import {CrystalApi} from "../../api/Crystal-Api";
 
-import {DataGrid, GridRowsProp, GridColDef} from '@mui/x-data-grid';
+import {DataGrid, GridRowsProp, GridColDef, GridRenderCellParams} from '@mui/x-data-grid';
 
 
 const columns: GridColDef[] = [
     {field: 'stream_id', headerName: 'stream_id', width: 100},
     {field: 'name', headerName: 'name', width: 200},
-    {field: 'stream_icon', headerName: 'stream_icon', width: 100},
+    {field: 'stream_icon', headerName: '', width: 100,renderCell: (params: GridRenderCellParams<LiveStream>) => (<img src={params.value?.stream_icon} height={50}/>)},
 ];
 //logo:
 // renderCell: (params: GridRenderCellParams<Date>) => (
@@ -84,7 +84,7 @@ export function Channels(props: { stream_id_changed: (id: number) => void }) {
                 <div style={{height: 600, width: '100%'}}>
                     <DataGrid rows={channels} columns={columns} getRowId={r => r.stream_id} onRowClick={r => {
                         props.stream_id_changed(r.row.stream_id)
-                    }}  
+                    }}
                               hideFooterSelectedRowCount/>
                 </div>
             </div>

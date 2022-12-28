@@ -4,5 +4,5 @@ import {createTheme, style, styleVariants, globalStyle,keyframes} from '@vanilla
 
 
 export const textbox = style({
-    width: '400px',
+    width: '600px',
 });
