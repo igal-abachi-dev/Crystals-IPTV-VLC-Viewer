@@ -7,8 +7,31 @@ import {useAppDispatch, useAppSelector} from "../../hooks/redux-hooks";
 import {LiveStream} from "../../api/api.types";
 import {CrystalApi} from "../../api/Crystal-Api";
 
+import {DataGrid, GridRowsProp, GridColDef} from '@mui/x-data-grid';
 
-export function Channels(props:{stream_id_changed:(id:number)=>void}) {
+
+const columns: GridColDef[] = [
+    {field: 'stream_id', headerName: 'stream_id', width: 100},
+    {field: 'name', headerName: 'name', width: 200},
+    {field: 'stream_icon', headerName: 'stream_icon', width: 100},
+];
+//logo:
+// renderCell: (params: GridRenderCellParams<Date>) => (
+//     <strong>
+//         {params.value.getFullYear()}
+//         <Button
+//             variant="contained"
+//             size="small"
+//             style={{ marginLeft: 16 }}
+//             tabIndex={params.hasFocus ? 0 : -1}
+//         >
+//             Open
+//         </Button>
+//     </strong>
+// ),
+// },
+
+export function Channels(props: { stream_id_changed: (id: number) => void }) {
 
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
@@ -43,8 +66,12 @@ export function Channels(props:{stream_id_changed:(id:number)=>void}) {
             if (api.valid) {
                 api.GetLiveStreamsByCategoryId().then(res => {//39 hebrew/israel
                     console.log(res);
-                    if (res != null)
+                    if (res != null) {
+                        res = res.filter((c) => {
+                            return c.is_adult === "0";
+                        })
                         setChannels(res);
+                    }
                 });
             }
         }
@@ -54,14 +81,11 @@ export function Channels(props:{stream_id_changed:(id:number)=>void}) {
     return (
         <div>
             <div className={row}>
-                    {/*name , stream_id , stream_icon*/}
-                {channels.filter( (c) =>{
-                    return c.is_adult === "0";
-                }).map((c) => (
-                    <div style={{backgroundColor:'aliceblue',marginTop:'3px'}} onClick={(e)=>{
-                        props.stream_id_changed(parseInt(e.currentTarget.id,10))
-                    }} id={c.stream_id.toString(10)}>{c.stream_id + " | "+ c.name + " | "+c.stream_icon}</div>
-                ))}
+                <div style={{height: 600, width: '100%'}}>
+                    <DataGrid rows={channels} columns={columns} getRowId={r => r.stream_id} onRowClick={r => {
+                        props.stream_id_changed(r.row.stream_id)
+                    }}/>
+                </div>
             </div>
         </div>
     );

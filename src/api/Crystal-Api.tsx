@@ -19,7 +19,7 @@ export class CrystalApi {
 
 //            this._api = '/player_api.php?username=' + this._username + '&password=' + this._password;
 
-            this._streamUrl = '/live/' + this._username + '/' + this._password + '/';
+            this._streamUrl = this._server + '/live/' + this._username + '/' + this._password + '/';
             //
             this._qry = 'server=' + this._server + '&username=' + this._username + '&password=' + this._password;
 
@@ -131,9 +131,10 @@ export class CrystalApi {
         return await this._http.get<ShortEpg>('/GetShortEpgByStream', this._qry + '&stream_id=' + stream.stream_id.toString());
     }
 
-    public GetVlcStreamUrlById(streamId:number): string {
+    public GetVlcStreamUrlById(streamId: number): string {
         return this._streamUrl + streamId.toString() + '.ts';
     }
+
     public GetVlcStreamUrl(stream: LiveStream): string {
         if (stream == null) {
             return null;
