@@ -25,7 +25,7 @@ const getTitle = (params) => {
     return b64DecodeUnicode(params.row.title);
 }
 const getTimeRange = (params) => {
-    return `${format(new Date(params.row.start_timestamp),'HH:mm') || ''} - ${format(new Date(params.row.stop_timestamp),'HH:mm') || ''}`;
+    return `${params.row.start.split(' ')[1] || ''} - ${params.row.end.split(' ')[1] || ''}`;
 }
 const getDesc = (params) => {
     return b64DecodeUnicode(params.row.description);

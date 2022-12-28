@@ -12,8 +12,8 @@ import {DataGrid, GridRowsProp, GridColDef, GridRenderCellParams} from '@mui/x-d
 
 const columns: GridColDef[] = [
     {field: 'stream_id', headerName: 'stream_id', width: 100},
-    {field: 'name', headerName: 'name', width: 200},
-    {field: 'stream_icon', headerName: '', width: 100,renderCell: (params: GridRenderCellParams<LiveStream>) => (<img src={params.value?.stream_icon} height={50}/>)},
+    {field: 'stream_icon', headerName: '', width: 100,renderCell: (params: GridRenderCellParams<string>) => (<img src={params.value} height={50}/>)},
+    {field: 'name', headerName: 'name', width: 400},
 ];
 //logo:
 // renderCell: (params: GridRenderCellParams<Date>) => (

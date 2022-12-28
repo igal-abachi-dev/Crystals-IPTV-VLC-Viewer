@@ -20,6 +20,9 @@ export class CrystalApi {
 //            this._api = '/player_api.php?username=' + this._username + '&password=' + this._password;
 
             this._streamUrl = this._server + '/live/' + this._username + '/' + this._password + '/';
+            if (this._streamUrl.toUpperCase().startsWith('HTTP://') == false) {
+                this._streamUrl = 'http://' + this._streamUrl;
+             }
             //
             this._qry = 'server=' + this._server + '&username=' + this._username + '&password=' + this._password;
 
