@@ -13,12 +13,12 @@ import {Box, TextField} from "@mui/material";
 import { format } from 'date-fns';
 
 
-const b64DecodeUnicode =(str:string):string {
+const b64DecodeUnicode =(str:string):string => {
     // Going backwards: from bytestream, to percent-encoding, to original string.
     return decodeURIComponent(window.atob(str).split('').map(function(c) {
         return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
-}
+    }).join(''));;
+};
 
 
 const getTitle = (params) => {
@@ -33,9 +33,9 @@ const getDesc = (params) => {
 
 const columns: GridColDef[] = [
     //id , lang
-    {field: 'title', headerName: 'title', width: 150, valueGetter: getTitle},
-    {field: 'start_timestamp', headerName: 'time range', width: 200, valueGetter: getTimeRange},
-    {field: 'description', headerName: 'description', width: 200, valueGetter: getDesc},
+    {field: 'title', headerName: 'title', width: 200, valueGetter: getTitle},
+    {field: 'start_timestamp', headerName: 'time range', width: 150, valueGetter: getTimeRange},
+    {field: 'description', headerName: 'description', width: 400, valueGetter: getDesc},
 ];
 
 
