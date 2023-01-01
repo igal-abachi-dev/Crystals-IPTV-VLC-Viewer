@@ -61,7 +61,7 @@ export function Channels(props: { stream_id_changed: (id: number) => void }) {
                             //also block:
                             //|IL| FASHION HD
                             //|IL| HOT Ego Total
-                            
+
                             return c.is_adult === "0";
 
                             //also block arab:
