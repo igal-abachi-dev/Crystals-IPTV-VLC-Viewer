@@ -118,7 +118,7 @@ export class HttpClient implements IHttpApiClient {
             // }
 
 
-            return this.ToFetchApiResponse(res);//used with fetchAdapter
+            return res;//this.ToFetchApiResponse(res);//used with fetchAdapter
         }, (err) => {
 
             if (err != null) {
@@ -214,11 +214,11 @@ export class HttpClient implements IHttpApiClient {
         }
         //let cancelToken = axios.CancelToken.source();
         return await this.axClient.get(`${url}${qry}`)//  {cancelToken: cancelToken.token} //{maxRedirects: 0 //5 is default}
-            .then(async res => {
-                const data = await res.body.json();//only if (response.ok)
-                console.log('GET: ', url, data);
-                return data as T;
+            .then(res => {
+                console.log('GET: ', url, res.data,this.ToFetchApiResponse(res));
+                return res;
             })
+            .then(res => res.data as T)
             .catch(err => {
                 console.error('GET: ', url, err);
                 return err?.response?.data; // throw err; ?
@@ -232,14 +232,14 @@ export class HttpClient implements IHttpApiClient {
         }
         //transformRequest() -> stringifySafely() -> does JSON.stringify(data);
         return await this.axClient.post(`${url}`, data)
-            .then(async res => {
-                const data = await res.body.json();//only if (response.ok)
-                console.log('POST: ', url, data);
-                return data as T;
-            })
+            .then(res => {
+                console.log('POST: ', url, res.data,this.ToFetchApiResponse(res));
+                return res;
+                })
+            .then(res => res.data as T)
             .catch(err => {
                 console.error('POST: ', url, err);
-                return err?.response?.data;//might be body instead of data?
+                return err?.response?.data;
             });
 
     }
@@ -260,12 +260,12 @@ export class HttpClient implements IHttpApiClient {
             //    withCredentials: true
 
         })
-            .then(async res => {
-                const data = await res.body.json();//only if (response.ok)
+            .then(res => {
                 console.log('POST: ', url, res.headers);
                 //window.document.cookie
-                return data as T;
+                return res;
             })
+            .then(res => res.data as T)
             .catch(err => {
                 console.error('POST: ', url, err?.response?.headers, err);
                 return err?.response?.data;
@@ -278,11 +278,11 @@ export class HttpClient implements IHttpApiClient {
             return Promise.resolve(null);
         }
         return await this.axClient.patch(`${url}`, data)
-            .then(async res => {
-                const data = await res.body.json();//only if (response.ok)
-                console.log('PATCH: ', url, data);
-                return data as T;
+            .then(res => {
+                console.log('PATCH: ', url, res.data);
+                return res;
             })
+            .then(res => res.data as T)
             .catch(err => {
                 console.error('PATCH: ', url, err);
                 return err?.response?.data;
@@ -295,11 +295,11 @@ export class HttpClient implements IHttpApiClient {
             return Promise.resolve(null);
         }
         return await this.axClient.put(`${url}`, data)
-            .then(async res => {
-                const data = await res.body.json();//only if (response.ok)
-                console.log('PUT: ', url, data);
-                return data as T;
+            .then(res => {
+                console.log('PUT: ', url, res.data);
+                return res;
             })
+            .then(res => res.data as T)
             .catch(err => {
                 console.error('PUT: ', url, err);
                 return err?.response?.data;
@@ -312,11 +312,11 @@ export class HttpClient implements IHttpApiClient {
             return Promise.resolve(null);
         }
         return await this.axClient.delete(`${url}`)
-            .then(async res => {
-                const data = await res.body.json();//only if (response.ok)
-                console.log('DELETE: ', url, data);
-                return data as T;
+            .then(res => {//AxiosResponse
+                console.log('DELETE: ', url, res.data);
+                return res;
             })
+            .then(res => res.data as T)
             .catch(err => {//AxiosError
                 console.error('DELETE: ', url, err);
                 return err?.response?.data;
