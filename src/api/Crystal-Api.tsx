@@ -59,7 +59,7 @@ export class CrystalApi {
         if (time != null) {
             const expired = new Date(parseInt(time, 10) + (this.expirationHours * this.millisecondsInHour)).getTime();
 
-            if (expired > 0 && expired < Date.now()) {
+            if (expired > 0 &&  Date.now() < expired) {
                 const data = localStorage.getItem(name + '_Data');
                 if (data != null) {
                     return JSON.parse(data) as T;

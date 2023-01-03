@@ -12,7 +12,7 @@ import {DataGrid, GridRowsProp, GridColDef, GridRenderCellParams} from '@mui/x-d
 
 const columns: GridColDef[] = [
     {field: 'stream_id', headerName: 'stream_id', width: 100},
-    {field: 'stream_icon', headerName: '', width: 100,renderCell: (params: GridRenderCellParams<string>) => (<img src={params.value} height={50}/>)},
+   // {field: 'stream_icon', headerName: '', width: 100,renderCell: (params: GridRenderCellParams<string>) => (<img src={params.value} height={50}/>)},
     {field: 'name', headerName: 'name', width: 400},
 ];
 
@@ -57,12 +57,19 @@ export function Channels(props: { stream_id_changed: (id: number) => void }) {
                 api.GetLiveStreamsByCategoryId().then(res => {//39 hebrew/israel
                     console.log(res);
                     if (res != null) {
-                        res = res.filter((c) => {
+                        res = res.filter((c:LiveStream) => {
                             //also block:
                             //|IL| FASHION HD
                             //|IL| HOT Ego Total
-
-                            return c.is_adult === "0";
+                            const nm = c.name.toUpperCase();
+                            const blocked = nm.length > 0 && (
+                                nm.indexOf("FASHION") > 0
+                            ||    nm.indexOf("EGO TOTAL") > 0
+                            ||    nm.indexOf("MAKAN") > 0
+                            ||    nm.indexOf("MIKAN") > 0
+                            ||    nm.indexOf("HALA TV") > 0
+                            );
+                            return blocked == false && c.is_adult === "0";
 
                             //also block arab:
                             //|IL| HOT Makan

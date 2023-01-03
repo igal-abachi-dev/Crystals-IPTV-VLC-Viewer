@@ -1,23 +1,24 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 
 
-import { textbox} from './ChannelData.css';
+import {textbox} from './ChannelData.css';
 
 import {useAppDispatch, useAppSelector} from "../../hooks/redux-hooks";
 import {CrystalApi} from "../../api/Crystal-Api";
 import {LiveStream, ShortEpg} from "../../api/api.types";
 
 import {DataGrid, GridRowsProp, GridColDef} from '@mui/x-data-grid';
-import {Box, TextField} from "@mui/material";
+import {Box, Button, TextField, Toolbar} from "@mui/material";
 
-import { format } from 'date-fns';
+import {format} from 'date-fns';
 
 
-const b64DecodeUnicode =(str:string):string => {
+const b64DecodeUnicode = (str: string): string => {
     // Going backwards: from bytestream, to percent-encoding, to original string.
-    return decodeURIComponent(window.atob(str).split('').map(function(c) {
+    return decodeURIComponent(window.atob(str).split('').map(function (c) {
         return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));;
+    }).join(''));
+    ;
 };
 
 
@@ -46,6 +47,8 @@ export function ChannelData(props: { stream_id: number | null | undefined }) {
 
     const [shortEpg, setShortEpg] = useState<ShortEpg>({epg_listings: []});
     const [vlcStreamUrl, setVlcStreamUrl] = useState<string>('');
+
+    const vlcStreamUrlInput = useRef(null);
 
     useEffect(() => {
         const user = localStorage.getItem('username');
@@ -80,19 +83,52 @@ export function ChannelData(props: { stream_id: number | null | undefined }) {
             }
         }
     }, [props.stream_id]);
+
+    const copyTextModern = async (text: string) => {
+        return await navigator.clipboard.writeText(text);
+    };
+    const copyText = (text: string, input: any = null) => {
+        try {
+            if ('clipboard' in navigator) {
+                copyTextModern(text).then(res => {
+                });
+            } else {
+                if (input != null) {
+                    input = input?.lastChild?.firstChild;
+                    input?.focus();
+                    input?.select();
+                    const res = document.execCommand('copy');
+                } else {
+                    const res = document.execCommand('copy', true, text);
+                }
+            }
+        } catch {
+            try {
+                (window as any)?.clipboardData?.setData("Text", text);
+            } catch {
+            }
+        }
+    };
+
+
     return (
         <div>
             <div>
                 <p>{"Channel: " + props.stream_id}</p>
                 <TextField value={vlcStreamUrl}
+                            ref={vlcStreamUrlInput}
                            type={'text'} className={textbox}
                            label="VLC Stream url:"
                            variant="filled"
                            margin='normal'
                 />
+                <Button color="inherit" onClick={e => {
+                    e.preventDefault();
+                    copyText(vlcStreamUrl,vlcStreamUrlInput.current);
+                }}>העתק כתובת</Button>
                 <br/>
                 <div style={{height: 300, width: '100%'}}>
-                    <DataGrid rows={shortEpg.epg_listings} columns={columns}  hideFooter />
+                    <DataGrid rows={shortEpg.epg_listings} columns={columns} hideFooter/>
                 </div>
             </div>
         </div>

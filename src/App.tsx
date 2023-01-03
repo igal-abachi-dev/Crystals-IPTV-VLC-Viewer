@@ -10,6 +10,7 @@ import {pink} from "@mui/material/colors";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
 import {CssBaseline, AppBar, Toolbar, Typography, Box, Button,Link } from "@mui/material";
 import {Apps, ForkRight, PlayCircleOutline} from "@mui/icons-material";
+import {CrystalApi} from "./api/Crystal-Api";
 
 
 function App() {
@@ -28,6 +29,9 @@ function App() {
         },
     });
 
+
+    const api = new CrystalApi(null,null,null);
+
     return (<ThemeProvider theme={theme}>
             <CssBaseline/>
 
@@ -37,14 +41,14 @@ function App() {
                     <Typography variant="h6" color="inherit" sx={{flexGrow: 1}}
                                 component={Link} href="/"
                                 underline="none" noWrap>
-                        Crystals IPTV Converter - to VLC streams
+                        Crystal IPTV to VLC streams
                     </Typography>
 
 
-                    {/*<Button color="inherit" onClick={e => {*/}
-                    {/*    e.preventDefault()*/}
-                    {/*    navigate('/');*/}
-                    {/*}}>אודות</Button>*/}
+                    <Button color="inherit" onClick={e => {
+                        e.preventDefault()
+                        api?.Logout();
+                    }}>התנתק</Button>
                 </Toolbar>
             </AppBar>
             <main>
